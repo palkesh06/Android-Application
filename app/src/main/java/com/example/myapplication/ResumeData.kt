@@ -12,8 +12,10 @@ data class ResumeData(
 data class Basics(
     val name: String,
     val label: String,
+    val picture: String,
     val email: String,
     val phone: String,
+    val website: String,
     val summary: String,
     val location: String,
     val profiles: List<Profile>

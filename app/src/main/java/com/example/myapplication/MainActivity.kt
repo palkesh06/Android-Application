@@ -10,16 +10,21 @@ import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
 import android.text.method.LinkMovementMethod
+import android.util.Log
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var resumeTextView: TextView
+    private lateinit var profileImageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         resumeTextView = findViewById(R.id.resumeTextView)
+        profileImageView = findViewById(R.id.profileImageView)
 
         fetchResume()
     }
@@ -53,11 +58,16 @@ class MainActivity : AppCompatActivity() {
             val formattedResume = buildString {
                 appendHeading("Basics")
                 append("Name: ${resumeData.basics.name}\n")
-                appendHyperlink("Email", resumeData.basics.email)
-                append("Phone: ${resumeData.basics.phone}\n")
+                append(("Label: ${resumeData.basics.label}\n"))
+                appendHyperlink("Website:", resumeData.basics.website)
+                append("Email:  ${resumeData.basics.email}\n")
+                append("Phone: ${resumeData.basics.phone}\n\n")
+                append("Summary: ${resumeData.basics.summary}\n\n")
                 append("Location: ${resumeData.basics.location}\n")
-                // Add other basic information
-
+                appendHeading("Profiles")
+                for (profile in resumeData.basics.profiles) {
+                    appendProfile(profile)
+                }
                 appendHeading("Work Experience")
                 for (experience in resumeData.work) {
                     append("Company: ${experience.company}\n")
@@ -104,6 +114,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             resumeTextView.text = formattedResume
+            val profileImageUrl = resumeData.basics.picture
+            if (!profileImageUrl.isNullOrEmpty()) {
+                runOnUiThread {
+                    Picasso.get()
+                        .load(profileImageUrl)
+                        .error(R.drawable.ic_launcher_background) // Load placeholder image on error
+                        .into(profileImageView)
+                }
+            } else {
+                // Load the placeholder image if the profile image URL is empty or null
+                runOnUiThread {
+                    Picasso.get().load(R.drawable.ic_launcher_background).into(profileImageView)
+                }
+            }
             resumeTextView.movementMethod = LinkMovementMethod.getInstance()
         }
     }
@@ -119,7 +143,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun StringBuilder.appendHyperlink(label: String, url: String) {
-        append("[$label]($url)\n")
+        append("$label $url\n")
+    }
+    private fun StringBuilder.appendProfile(profile: Profile) {
+        append("Network: ${profile.network}\n")
+        appendHyperlink("Profile URL:", profile.url)
+        append("\n")
     }
 
 }
