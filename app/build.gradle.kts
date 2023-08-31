@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation("androidx.core:core-ktx:1.9.0")
