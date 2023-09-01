@@ -6,7 +6,6 @@ data class ResumeData(
     val education: List<Education>,
     val skills: List<Skill>,
     val references: List<Reference>
-    // ... other fields
 )
 
 data class Basics(
@@ -19,7 +18,6 @@ data class Basics(
     val summary: String,
     val location: String,
     val profiles: List<Profile>
-    // ... other fields
 )
 
 data class Work(
@@ -31,7 +29,6 @@ data class Work(
     val logo: String,
     val summary: String,
     val highlights: List<String>
-    // ... other fields
 )
 
 data class Education(
@@ -42,25 +39,21 @@ data class Education(
     val endDate: String,
     val gpa: String,
     val courses: List<String>
-    // ... other fields
 )
 
 data class Skill(
     val name: String,
     val level: String,
     val keywords: List<String>
-    // ... other fields
 )
 
 data class Reference(
     val name: String,
     val reference: String
-    // ... other fields
 )
 
 data class Profile(
     val network: String,
     val url: String,
     val iconUrl: String
-    // ... other fields
 )
